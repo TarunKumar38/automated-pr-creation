@@ -1,31 +1,41 @@
 name: Create Pull Request
 
 on:
-  workflow_dispatch: # Enable manual triggering
+  workflow_dispatch:  # Enable manual triggering
   push:
     branches:
       - 'AB*'
 
 jobs:
   create_pull_request:
-    name: create_pull_request
+    name: Create Pull Request
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
         with:
           token: ${{ secrets.PAT_TOKEN }}
-      - uses: actions/checkout@v2
+
+      - name: Check for existing pull request
+        id: check_pr
+        run: |
+          if git ls-remote --exit-code origin "refs/pull/*/head:${{ github.ref }}"; then
+            echo "::set-output name=pr_exists::true"
+          else
+            echo "::set-output name=pr_exists::false"
+          fi
+
       - name: Create Pull Request
+        if: steps.check_pr.outputs.pr_exists != 'true'
         uses: peter-evans/create-pull-request@v3
         with:
           token: ${{ secrets.PAT_TOKEN }}
-          title: "${{ github.event.commits[0].message }}"
+          title: "${{ github.event.head_commit.message }}"
           body: |
             This pull request adds the following changes:
 
-            ${{ github.event.commits[0].message }}
+            ${{ github.event.head_commit.message }}
 
           branch: ${{ github.ref }}
           base: master
-          assignees: ${{ github.actor }}
+          assignees: ${{ github.actor }}  # Set the pusher as the assignee
