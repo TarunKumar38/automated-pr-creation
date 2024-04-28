@@ -28,4 +28,3 @@ jobs:
 
           branch: AB#test2
           base: master
-          assignees: ${{github.actor}}
