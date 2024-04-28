@@ -49,3 +49,4 @@ jobs:
           branch: ${{ github.ref }}
           base: master
           assignees: ${{ github.actor }}  # Set the pusher as the assignee
+          reviewers: ${{ github.actor }}
