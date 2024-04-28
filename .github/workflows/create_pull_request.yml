@@ -16,18 +16,16 @@ jobs:
         with:
           token: ${{ secrets.PAT_TOKEN }}
       
-      - name: Extract GitHub username
-        id: extract_username
+      - name: Get GitHub username
+        id: get_github_username
         run: |
-          git log -1 --pretty=format:'%ae' > email.txt
-          email=$(cat email.txt)
-          username=$(echo $email | cut -d "@" -f 1)
+          username=$(curl -s -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" https://api.github.com/user | jq -r .login)
           echo "::set-output name=username::$username"
       
-      - name: Print extracted username
+      - name: Print GitHub username
         run: |
-          echo "Extracted GitHub username: ${{ steps.extract_username.outputs.username }}"
-      
+          echo "GitHub username: ${{ steps.get_github_username.outputs.username }}"
+
       - name: Check for existing pull request
         id: check_pr
         run: |
@@ -60,5 +58,5 @@ jobs:
 
           branch: ${{ github.ref }}
           base: master
-          assignees: ${{ steps.extract_username.outputs.username }}
-          reviewers: ${{ steps.extract_username.outputs.username }}
+          assignees: ${{ steps.get_github_username.outputs.username }}
+          reviewers: ${{ steps.get_github_username.outputs.username }}
