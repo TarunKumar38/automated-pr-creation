@@ -15,7 +15,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
           title: "${{ github.event.commits[0].message }}"
           body: |
             This pull request adds the following changes:
