@@ -26,5 +26,5 @@ jobs:
 
             ${{ github.event.commits[0].message }}
 
-          branch: AB#test2
+          branch: ${{ github.ref }}
           base: master
