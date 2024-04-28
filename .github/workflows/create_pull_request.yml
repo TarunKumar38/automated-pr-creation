@@ -24,7 +24,7 @@ jobs:
           username=$(echo $email | cut -d "@" -f 1)
           echo "::set-output name=username::$username"
       
-      - name: Debug - Print extracted username
+      - name: Print extracted username
         run: |
           echo "Extracted GitHub username: ${{ steps.extract_username.outputs.username }}"
       
@@ -43,7 +43,7 @@ jobs:
             echo "::set-output name=pr_exists::false"
           fi
 
-      - name: Debug - Print pr_exists
+      - name: Print pr_exists
         run: |
           echo "pr_exists: ${{ steps.check_pr.outputs.pr_exists }}"
 
@@ -60,5 +60,5 @@ jobs:
 
           branch: ${{ github.ref }}
           base: master
-          assignees: ${{ steps.extract_username.outputs.username }}  # Set the pusher as the assignee
-          reviewers: ${{ steps.extract_username.outputs.username }}  # Set the pusher as the reviewer as well
+          assignees: ${{ steps.extract_username.outputs.username }}
+          reviewers: ${{ steps.extract_username.outputs.username }}
