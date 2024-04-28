@@ -30,7 +30,11 @@ jobs:
             echo "PR does not exist for branch ${{ github.ref }}"
             echo "::set-output name=pr_exists::false"
           fi
-
+      
+      - name: Debug - Print extracted username
+        run: |
+          echo "Extracted GitHub username: ${{ steps.extract_username.outputs.username }}"
+      
       - name: Print pr_exists
         run: |
           echo "pr_exists: ${{ steps.check_pr.outputs.pr_exists }}"
