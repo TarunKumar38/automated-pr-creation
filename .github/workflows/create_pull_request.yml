@@ -20,10 +20,16 @@ jobs:
         id: check_pr
         run: |
           if git ls-remote --exit-code origin "refs/pull/*/head:${{ github.ref }}"; then
+            echo "PR exists for branch ${{ github.ref }}"
             echo "::set-output name=pr_exists::true"
           else
+            echo "PR does not exist for branch ${{ github.ref }}"
             echo "::set-output name=pr_exists::false"
           fi
+
+      - name: Debug - Print pr_exists
+        run: |
+          echo "pr_exists: ${{ steps.check_pr.outputs.pr_exists }}"
 
       - name: Create Pull Request
         if: steps.check_pr.outputs.pr_exists != 'true'
