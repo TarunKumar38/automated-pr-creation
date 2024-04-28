@@ -31,8 +31,11 @@ jobs:
       - name: Check for existing pull request
         id: check_pr
         run: |
-          # Check if the branch exists in the remote repository
-          if git ls-remote --exit-code origin "refs/pull/*/head:${{ github.ref }}"; then
+          response=$(curl -s -X GET \
+            -H "Authorization: Bearer ${{ secrets.PAT_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            "https://api.github.com/repos/${{ github.repository }}/pulls?head=${{ github.ref }}&state=open")
+          if [ "$(echo $response | jq length)" -gt 0 ]; then
             echo "PR exists for branch ${{ github.ref }}"
             echo "::set-output name=pr_exists::true"
           else
