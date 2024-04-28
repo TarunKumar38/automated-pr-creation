@@ -25,4 +25,3 @@ jobs:
           branch: new-feature
           base: main
           assignees: [github.actor]
-          reviewers: [user1, user2]
