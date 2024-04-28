@@ -28,3 +28,4 @@ jobs:
 
           branch: ${{ github.ref }}
           base: master
+          assignees: [github.actor]
