@@ -31,7 +31,7 @@ jobs:
             echo "::set-output name=pr_exists::false"
           fi
 
-      - name: Debug - Print pr_exists
+      - name: Print pr_exists
         run: |
           echo "pr_exists: ${{ steps.check_pr.outputs.pr_exists }}"
 
