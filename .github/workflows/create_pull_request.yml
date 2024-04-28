@@ -1,6 +1,7 @@
 name: Create Pull Request
 
 on:
+  workflow_dispatch: # Enable manual triggering
   push:
     branches:
       - 'AB*/**'
